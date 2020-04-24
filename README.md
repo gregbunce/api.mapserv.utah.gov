@@ -156,3 +156,20 @@ app-config for mounting [appsettings.json](src/api/appsettings.json).
 The loadbalancer takes a couple minutes to be assigned. Once it is assigned, the external IP can be found in the `EXTERNAL-IP` field of the `webapi-api` service.
 
 - `kubectl get services webapi-api`
+
+## Google Cloud Endpoints
+
+- requires 2.0 swagger spec
+- [json to yaml](https://editor.swagger.io/)
+- add host agrc-api.endpoints.ut-dts-agrc-web-api-dv.cloud.goog
+- deploy k8s
+- kubectl create configmap app-config --from-file=appsettings.json=appsettings.json
+- add x-google-endpoints: { name: same as above: target: k8s public ip }
+- add securityDefinitions
+- add x-google-management metrics and quota for rate limiting
+- add security: [apikey] to open api paths (this is in the spec)
+- gcloud endpoints services deploy api.yaml
+- gcloud services enable servicemanagement.googleapis.com
+- gcloud services enable servicecontrol.googleapis.com
+- gcloud services enable endpoints.googleapis.com
+- gcloud services enable grc-api.endpoints.ut-dts-agrc-web-api-dv.cloud.goog
