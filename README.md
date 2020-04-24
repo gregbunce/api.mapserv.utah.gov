@@ -157,6 +157,10 @@ The loadbalancer takes a couple minutes to be assigned. Once it is assigned, the
 
 - `kubectl get services webapi-api`
 
+## Swagger
+
+- openapi/v1/api.json
+
 ## Google Cloud Endpoints
 
 - requires 2.0 swagger spec
