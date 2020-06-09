@@ -26,13 +26,5 @@ services:
       dockerfile: Dockerfile
     image: webapi/explorer
 
-  address-parser:
-    build:
-      context: ./src/address-parser
-      dockerfile: Dockerfile
-    image: webapi/address-parser
-    ports:
-      - '8000:8000'
-
   cache:
     image: redis:latest
