@@ -35,6 +35,10 @@ services:
     ports:
       - '8080:80'
 
+  address-parser:
+    ports:
+      - '8000:8000'
+
 volumes:
   pgdata:
     external: true
