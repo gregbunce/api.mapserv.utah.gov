@@ -26,5 +26,11 @@ services:
       dockerfile: Dockerfile
     image: webapi/explorer
 
+  address-parser:
+    build:
+      context: ./src/address-parser
+      dockerfile: Dockerfile
+    image: webapi/address-parser
+
   cache:
     image: redis:latest
