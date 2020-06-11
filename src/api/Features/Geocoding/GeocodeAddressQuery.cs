@@ -61,8 +61,11 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
                 #endregion
 
-                var parseAddressCommand = new AddressParsing.Command(street);
+                var parseAddressCommand = new AddressParsingWithGrpc.Command(street);
                 var parsedStreet = await _mediator.Send(parseAddressCommand);
+
+                // var parseAddressCommand = new AddressParsing.Command(street);
+                // var parsedStreet = await _mediator.Send(parseAddressCommand);
 
                 var parseZoneCommand = new ZoneParsing.Command(zone, new AddressWithGrids(parsedStreet));
                 var parsedAddress = await _mediator.Send(parseZoneCommand);
