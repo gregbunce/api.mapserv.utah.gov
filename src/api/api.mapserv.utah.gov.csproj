@@ -24,6 +24,7 @@
     <PackageReference Include="GeoJSON.Net" Version="1.2.15" />
     <PackageReference Include="Google.Protobuf" Version="3.12.3" />
     <PackageReference Include="Grpc" Version="2.29.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.29.0" />
     <PackageReference Include="Grpc.Tools" Version="2.29.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -43,7 +44,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.3.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
     <PackageReference Include="WebApiContrib.Core.Formatter.Jsonp" Version="2.1.0" />
-    <Protobuf Include="../address-parser/protos/address_parser.proto" />
+    <Protobuf Include="../address-parser/protos/address_parser.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

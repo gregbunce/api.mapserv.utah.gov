@@ -5,6 +5,7 @@ using Addressparser;
 using api.mapserv.utah.gov.Models;
 using api.mapserv.utah.gov.Models.Constants;
 using Grpc.Core;
+using Grpc.Net.Client;
 using MediatR;
 using Serilog;
 
@@ -20,18 +21,17 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
 
         public class Handler : IRequestHandler<Command, CleansedAddress> {
             private readonly ILogger _log;
+            private readonly AddressService.AddressServiceClient _client;
 
-            public Handler(ILogger log) {
+            public Handler(ILogger log, AddressService.AddressServiceClient client) {
                 _log = log;
+                _client = client;
             }
 
             public async Task<CleansedAddress> Handle(Command request, CancellationToken cancellationToken) {
                 _log.Debug("Parsing {street}", request.Street);
 
-                var channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-
-                var client = new AddressService.AddressServiceClient(channel);
-                var result = await client.ParseAsync(new InputAddress { Address = request.Street });
+                var result = await _client.ParseAsync(new InputAddress { Address = request.Street });
 
                 var prefixDirection = Direction.None;
                 if (!string.IsNullOrEmpty(result.PrefixDirection)) {
@@ -69,8 +69,6 @@ namespace api.mapserv.utah.gov.Features.Geocoding {
                 }
 
                 _log.Information("Replaced {original} with {standard}", request.Street, result.Normalized);
-
-                await channel.ShutdownAsync();
 
                 return new CleansedAddress(request.Street,
                                            Convert.ToInt32(result.AddressNumber),

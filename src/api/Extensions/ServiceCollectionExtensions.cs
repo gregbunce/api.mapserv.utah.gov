@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using Addressparser;
 using api.mapserv.utah.gov.Cache;
 using api.mapserv.utah.gov.Features.Geocoding;
 using api.mapserv.utah.gov.Features.GeometryService;
@@ -60,8 +61,13 @@ namespace api.mapserv.utah.gov.Extensions {
                         return handler;
                     })
                     .AddPolicyHandler(retryPolicy)
-                    .AddPolicyHandler(timeoutPolicy)
-                    .SetHandlerLifetime(Timeout.InfiniteTimeSpan); // TODO: Remove after preview 3 or when fixed
+                    .AddPolicyHandler(timeoutPolicy);
+
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            services.AddGrpcClient<AddressService.AddressServiceClient>(o => {
+                o.Address = new Uri("http://127.0.0.1:50051");
+            });
 
             services.AddSingleton<IAbbreviations, Abbreviations>();
             services.AddSingleton<IRegexCache, RegexCache>();
