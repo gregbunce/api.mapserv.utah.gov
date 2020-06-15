@@ -92,3 +92,6 @@ csharp_preserve_single_line_blocks = true
 
 [*.{xaml,daml}]
 indent_size = 2
+
+[*.py]
+indent_size = 4
